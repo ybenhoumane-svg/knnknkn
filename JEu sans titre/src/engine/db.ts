@@ -1,0 +1,4 @@
+import type {Profile} from './types';
+const DB='lvi-v3',STORE='state';
+export function dbPut(p:Profile){return new Promise<void>((resolve,reject)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE)};r.onsuccess=()=>{const tx=r.result.transaction(STORE,'readwrite');tx.objectStore(STORE).put(p,'profile');tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)};r.onerror=()=>reject(r.error)})}
+export function dbGet():Promise<Profile|null>{return new Promise(res=>{if(!('indexedDB'in window)){res(null);return}const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE)};r.onsuccess=()=>{const q=r.result.transaction(STORE).objectStore(STORE).get('profile');q.onsuccess=()=>{const p=q.result;if(p?.abilities&&p?.domains)res(p as Profile);else res(null)};q.onerror=()=>res(null)};r.onerror=()=>res(null)})}

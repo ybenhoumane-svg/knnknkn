@@ -1,0 +1,25 @@
+{
+  "name": "la-vraie-intelligence",
+  "private": true,
+  "version": "0.26.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "engine:check": "tsc -p tsconfig.engine.json",
+    "quality": "node --input-type=module -e \"import {createServer} from 'vite'; const server=await createServer({server:{middlewareMode:true},appType:'custom'}); const quality=await server.ssrLoadModule('/src/engine/quality.ts'); console.log(JSON.stringify(quality.runQualitySuite(),null,2)); await server.close();\""
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "typescript": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0"
+  }
+}
